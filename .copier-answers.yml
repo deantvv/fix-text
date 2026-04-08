@@ -1,0 +1,8 @@
+# Changes here will be overwritten by Copier. Do not edit manually.
+_commit: v0.2.20
+_src_path: gh:jlevy/simple-modern-uv
+package_author_name: Dean Li
+package_description: Detect and normalize suspicious Unicode characters in text files.
+package_github_org: deantvv
+package_module: fix_text
+package_name: fix-text
