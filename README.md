@@ -92,7 +92,19 @@ Recommended pre-release checks:
 - `uv run fix-text --help`
 - `uv run fix-text README.md`
 - `uv run --group dev pytest`
-- `uv build`
+- `uv build --out-dir dist`
+
+Build into the repo-local `dist/` directory:
+
+```bash
+./scripts/release.sh build
+```
+
+Publish the repo-local artifacts:
+
+```bash
+./scripts/release.sh publish
+```
 
 ## License
 
