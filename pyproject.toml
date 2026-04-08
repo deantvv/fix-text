@@ -1,0 +1,32 @@
+[project]
+name = "fix-text"
+version = "0.1.0"
+description = "Detect and normalize suspicious Unicode characters in text files."
+readme = "README.md"
+requires-python = "==3.12.*"
+dependencies = []
+license = { text = "MIT" }
+authors = [
+    { name = "Dean" },
+]
+keywords = ["cli", "text", "unicode", "normalization", "cleanup"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Text Processing",
+    "Topic :: Utilities",
+]
+
+[project.scripts]
+fix-text = "fix_text.cli:main"
+
+[build-system]
+requires = ["hatchling>=1.27.0"]
+build-backend = "hatchling.build"
+
+[tool.uv]
+package = true
