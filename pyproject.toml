@@ -3,11 +3,14 @@ name = "fix-text"
 version = "0.1.0"
 description = "Detect and normalize suspicious Unicode characters in text files."
 readme = "README.md"
-requires-python = "==3.12.*"
-dependencies = []
+requires-python = ">=3.12,<4"
+dependencies = [
+    "orjson>=3.10.0",
+    "PyYAML>=6.0.0",
+]
 license = { text = "MIT" }
 authors = [
-    { name = "Dean" },
+    { name = "Dean Li" },
 ]
 keywords = ["cli", "text", "unicode", "normalization", "cleanup"]
 classifiers = [
@@ -21,12 +24,23 @@ classifiers = [
     "Topic :: Utilities",
 ]
 
+[project.urls]
+Homepage = "https://github.com/deantvv/fix-text"
+Repository = "https://github.com/deantvv/fix-text"
+Issues = "https://github.com/deantvv/fix-text/issues"
+Changelog = "https://github.com/deantvv/fix-text/releases"
+
 [project.scripts]
 fix-text = "fix_text.cli:main"
 
 [build-system]
 requires = ["hatchling>=1.27.0"]
 build-backend = "hatchling.build"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0.0",
+]
 
 [tool.uv]
 package = true

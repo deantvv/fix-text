@@ -7,6 +7,9 @@ from collections.abc import Iterable
 from dataclasses import dataclass
 from pathlib import Path
 
+import orjson
+import yaml
+
 from fix_text import __version__
 
 
@@ -181,6 +184,31 @@ def format_char(char: str) -> str:
     return f"{codepoint} {name} {printable}"
 
 
+def validate_json_text(text: str) -> bool:
+    try:
+        orjson.loads(text)
+    except orjson.JSONDecodeError:
+        return False
+    return True
+
+
+def validate_yaml_text(text: str) -> bool:
+    try:
+        yaml.safe_load(text)
+    except yaml.YAMLError:
+        return False
+    return True
+
+
+def validate_cleaned_text(path: Path, text: str) -> tuple[bool, str | None]:
+    suffix = path.suffix.lower()
+    if suffix == ".json":
+        return validate_json_text(text), "JSON"
+    if suffix in {".yaml", ".yml"}:
+        return validate_yaml_text(text), "YAML"
+    return True, None
+
+
 def process_file(path: Path, encoding: str, apply: bool, include_controls: bool) -> tuple[int, bool]:
     try:
         original = path.read_text(encoding=encoding)
@@ -200,6 +228,10 @@ def process_file(path: Path, encoding: str, apply: bool, include_controls: bool)
     if apply:
         sanitized = sanitize_text(original, include_controls=include_controls)
         if sanitized != original:
+            is_valid, file_type = validate_cleaned_text(path, sanitized)
+            if not is_valid and file_type is not None:
+                print(f"  skipped rewrite: cleaned content is not valid {file_type}", file=sys.stderr)
+                return len(issues), False
             path.write_text(sanitized, encoding=encoding)
             changed = True
             print("  rewritten")
@@ -207,9 +239,9 @@ def process_file(path: Path, encoding: str, apply: bool, include_controls: bool)
     return len(issues), changed
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
     parser = build_parser()
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
 
     total_issues = 0
     changed_files = 0

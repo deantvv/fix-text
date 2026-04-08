@@ -9,6 +9,8 @@ characters, BOM markers, and optional control characters.
 - Replaces fullwidth and non-standard spacing characters with a normal ASCII space
 - Removes zero-width characters and byte order marks
 - Optionally removes unsupported control characters with `--include-controls`
+- Validates cleaned `.json` files before rewriting them
+- Validates cleaned `.yaml` and `.yml` files before rewriting them
 - Scans individual files or entire directory trees
 
 ## Install for development
@@ -19,10 +21,22 @@ This project is managed with `uv`.
 uv sync
 ```
 
+Install the test dependency group:
+
+```bash
+uv sync --group dev
+```
+
 Run the CLI without installing globally:
 
 ```bash
 uv run fix-text --help
+```
+
+Run the test suite:
+
+```bash
+uv run --group dev pytest
 ```
 
 ## Usage
@@ -51,6 +65,10 @@ Treat additional suffixes as text:
 uv run fix-text --ext .log --ext .cfg sample/
 ```
 
+For `.json` files, `fix-text` validates the cleaned output with `orjson` before writing.
+For `.yaml` and `.yml`, it validates the cleaned output with `PyYAML`.
+If the cleaned content would still be invalid JSON or YAML, the file is left unchanged.
+
 ## Example output
 
 ```text
@@ -63,7 +81,7 @@ Found 2 issue(s). Re-run with --apply to rewrite files.
 
 ## PyPI release plan
 
-1. Choose the final package metadata in `pyproject.toml`, especially author, homepage, and repository URLs.
+1. Replace the placeholder GitHub URLs in `pyproject.toml`.
 2. Create a PyPI account and API token.
 3. Build distributions with `uv build`.
 4. Publish with `uv publish`.
@@ -73,6 +91,7 @@ Recommended pre-release checks:
 
 - `uv run fix-text --help`
 - `uv run fix-text README.md`
+- `uv run --group dev pytest`
 - `uv build`
 
 ## License
