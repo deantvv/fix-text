@@ -41,6 +41,18 @@ uv run --group dev pytest
 
 ## Usage
 
+Run directly from PyPI with `uvx`:
+
+```bash
+uvx fix-text --help
+```
+
+Scan a file without installing the package into your current environment:
+
+```bash
+uvx fix-text path/to/file.txt
+```
+
 Scan a file or directory:
 
 ```bash
