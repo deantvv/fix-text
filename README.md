@@ -56,25 +56,25 @@ uvx fix-text path/to/file.txt
 Scan a file or directory:
 
 ```bash
-uv run fix-text path/to/file.txt path/to/dir
+uvx fix-text path/to/file.txt path/to/dir
 ```
 
 Rewrite files in place:
 
 ```bash
-uv run fix-text --apply path/to/file.txt
+uvx fix-text --apply path/to/file.txt
 ```
 
 Include control-character cleanup:
 
 ```bash
-uv run fix-text --apply --include-controls logs/
+uvx fix-text --apply --include-controls logs/
 ```
 
 Treat additional suffixes as text:
 
 ```bash
-uv run fix-text --ext .log --ext .cfg sample/
+uvx fix-text --ext .log --ext .cfg sample/
 ```
 
 For `.json` files, `fix-text` validates the cleaned output with `orjson` before writing.
